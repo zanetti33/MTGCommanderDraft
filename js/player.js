@@ -11,6 +11,13 @@
   const imageModalEl = document.getElementById('image-modal');
   const modalImageEl = document.getElementById('modal-image');
 
+  const t = window.I18n.t;
+  document.title = t('player.title');
+  document.documentElement.lang = window.I18n.getLang();
+  window.I18n.applyStaticTranslations();
+  window.I18n.renderLangSwitcher(document.getElementById('lang-switcher'));
+  window.I18n.renderRules(document.getElementById('rules-content'));
+
   function showError(message) {
     loadingEl.classList.add('hidden');
     choiceViewEl.classList.add('hidden');
@@ -76,7 +83,7 @@
       const chooseBtn = document.createElement('button');
       chooseBtn.type = 'button';
       chooseBtn.className = 'primary';
-      chooseBtn.textContent = 'Choose this card';
+      chooseBtn.textContent = t('player.chooseBtn');
       chooseBtn.addEventListener('click', () => onChoose(card));
 
       box.appendChild(img);
@@ -94,7 +101,7 @@
     const encoded = params.get('d');
 
     if (!encoded) {
-      showError('This link is missing its draft data. Ask your host for a fresh link.');
+      showError(t('player.errorMissingData'));
       return;
     }
 
@@ -102,7 +109,7 @@
     try {
       cardIds = window.Encoding.decodePayload(encoded);
     } catch (e) {
-      showError('This link is invalid or incomplete. Ask your host for a fresh link.');
+      showError(t('player.errorInvalidLink'));
       return;
     }
 
@@ -115,25 +122,25 @@
         window.Scry.getCardById(shownIdB),
       ]);
     } catch (e) {
-      showError('Could not load your cards from Scryfall. Please refresh to try again.');
+      showError(t('player.errorLoadCards'));
       return;
     }
 
     renderChoices(shownCards, (card) => {
       luckBtn.disabled = true;
-      showResult('You chose:', card);
+      showResult(t('player.resultChose'), card);
     });
 
     luckBtn.addEventListener('click', async () => {
       luckBtn.disabled = true;
-      luckBtn.textContent = 'Revealing…';
+      luckBtn.textContent = t('player.luckRevealing');
       try {
         const luckCard = await window.Scry.getCardById(luckId);
-        showResult('Your luck card:', luckCard);
+        showResult(t('player.resultLuck'), luckCard);
       } catch (e) {
         luckBtn.disabled = false;
-        luckBtn.textContent = 'Try your luck';
-        showError('Could not load your luck card from Scryfall. Please try again.');
+        luckBtn.textContent = t('player.luckBtn');
+        showError(t('player.errorLoadLuck'));
       }
     });
   }

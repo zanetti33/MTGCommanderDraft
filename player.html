@@ -8,17 +8,26 @@
 </head>
 <body>
   <div class="wrap">
-    <h1>Your draft options</h1>
-    <p class="subtitle">Pick one of the two cards below, or try your luck for a hidden third card.</p>
+    <div class="top-bar">
+      <div id="lang-switcher" class="lang-switcher"></div>
+    </div>
 
-    <div id="loading" class="status">Loading your cards…</div>
+    <h1 data-i18n="player.h1">Your draft options</h1>
+    <p class="subtitle" data-i18n="player.subtitle">Pick one of the two cards below, or try your luck for a hidden third card.</p>
+
+    <details class="rules-details">
+      <summary data-i18n="player.rulesToggle">Contest rules</summary>
+      <div id="rules-content" class="rules-content"></div>
+    </details>
+
+    <div id="loading" class="status" data-i18n="player.loading">Loading your cards…</div>
     <div id="error" class="status error hidden"></div>
 
     <div id="choice-view" class="hidden">
       <div class="cards-row" id="cards-row"></div>
       <div class="luck-row">
-        <p>Not feeling either of these? Try your luck for a hidden third card instead.</p>
-        <button type="button" class="secondary" id="luck-btn">Try your luck</button>
+        <p data-i18n="player.luckPrompt">Not feeling either of these? Try your luck for a hidden third card instead.</p>
+        <button type="button" class="secondary" id="luck-btn" data-i18n="player.luckBtn">Try your luck</button>
       </div>
     </div>
 
@@ -35,6 +44,7 @@
 
   <script src="js/scryfall.js"></script>
   <script src="js/encoding.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/player.js"></script>
 </body>
 </html>

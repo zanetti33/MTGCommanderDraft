@@ -8,47 +8,39 @@
 </head>
 <body>
   <div class="wrap">
-    <h1>MTG Commander Drafting</h1>
-    <p class="subtitle">Set up a draft pool and generate a private link for each player.</p>
+    <div class="top-bar">
+      <div id="lang-switcher" class="lang-switcher"></div>
+    </div>
+
+    <h1 data-i18n="host.h1">MTG Commander Drafting</h1>
+    <p class="subtitle" data-i18n="host.subtitle">Set up a draft pool and generate a private link for each player.</p>
 
     <div class="card">
       <form id="draft-form">
         <div class="field">
-          <label for="set-code">Set code</label>
-          <input type="text" id="set-code" placeholder="e.g. neo" required />
-          <div class="hint">The Scryfall three-letter set code (e.g. "neo" for Kamigawa: Neon Dynasty).</div>
-        </div>
-
-        <div class="field">
-          <label>Color identity restriction</label>
-          <div class="identity-row">
-            <label><input type="checkbox" class="identity-box" value="w" checked /> White</label>
-            <label><input type="checkbox" class="identity-box" value="u" checked /> Blue</label>
-            <label><input type="checkbox" class="identity-box" value="b" checked /> Black</label>
-            <label><input type="checkbox" class="identity-box" value="r" checked /> Red</label>
-            <label><input type="checkbox" class="identity-box" value="g" checked /> Green</label>
-          </div>
-          <div class="hint">Only cards whose color identity fits within the checked colors are eligible. Uncheck all five to restrict to colorless-identity cards only.</div>
+          <label for="scryfall-query" data-i18n="host.queryLabel">Scryfall search query</label>
+          <input type="text" id="scryfall-query" data-i18n-placeholder="host.queryPlaceholder" placeholder="e.g. set:neo t:creature" required />
+          <div class="hint" data-i18n="host.queryHint">Any valid Scryfall search query. See the syntax guide at scryfall.com/docs/syntax.</div>
         </div>
 
         <div class="field checkbox-field">
           <input type="checkbox" id="include-duplicates" />
-          <label for="include-duplicates">Include duplicates (allow the same card to be dealt more than once across the draft)</label>
+          <label for="include-duplicates" data-i18n="host.duplicatesLabel">Include duplicates (allow the same card to be dealt more than once across the draft)</label>
         </div>
 
         <div class="field">
-          <label for="num-players">Number of players</label>
+          <label for="num-players" data-i18n="host.numPlayersLabel">Number of players</label>
           <input type="number" id="num-players" min="1" step="1" value="4" required />
         </div>
 
-        <button type="submit" class="primary" id="submit-btn">Generate draft links</button>
+        <button type="submit" class="primary" id="submit-btn" data-i18n="host.submit">Generate draft links</button>
       </form>
 
       <div id="status" class="status hidden"></div>
     </div>
 
     <div id="results" class="card hidden" style="margin-top: 1.5rem;">
-      <h2>Player links</h2>
+      <h2 data-i18n="host.resultsH2">Player links</h2>
       <p id="results-summary" class="results-summary"></p>
       <div id="player-list"></div>
     </div>
@@ -57,6 +49,7 @@
   <script src="js/scryfall.js"></script>
   <script src="js/encoding.js"></script>
   <script src="js/sampling.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/host.js"></script>
 </body>
 </html>
