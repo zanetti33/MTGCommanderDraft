@@ -23,6 +23,16 @@
     statusEl.textContent = message;
   }
 
+  function errorMessage(err) {
+    if (err && err.code === 'POOL_TOO_SMALL_NO_DUPLICATES') {
+      return t('host.statusPoolTooSmall', { needed: err.needed, available: err.available });
+    }
+    if (err && err.code === 'UNSATISFIABLE_COLOR_CONSTRAINT') {
+      return t('host.statusColorConstraintUnsatisfiable', { n: err.numPlayers, size: err.poolSize });
+    }
+    return (err && err.message) || t('host.statusGenericError');
+  }
+
   function buildPlayerLink(cardIds) {
     const encoded = window.Encoding.encodePayload(cardIds);
     return new URL(`player.html?d=${encoded}`, document.baseURI).toString();
@@ -85,6 +95,7 @@
     const query = document.getElementById('scryfall-query').value.trim();
     const includeDuplicates = document.getElementById('include-duplicates').checked;
     const numPlayers = parseInt(document.getElementById('num-players').value, 10);
+    const uniqueColors = document.getElementById('unique-colors').value;
 
     if (!query) {
       setStatus(t('host.statusQueryRequired'), true);
@@ -106,12 +117,12 @@
         return;
       }
 
-      const playerHands = window.Sampling.assignPlayers(pool, numPlayers, includeDuplicates);
+      const playerHands = window.Sampling.assignPlayers(pool, numPlayers, includeDuplicates, uniqueColors);
 
       setStatus(null);
       renderResults(pool.length, playerHands);
     } catch (err) {
-      setStatus(err.message || t('host.statusGenericError'), true);
+      setStatus(errorMessage(err), true);
     } finally {
       submitBtn.disabled = false;
     }

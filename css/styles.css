@@ -65,7 +65,8 @@ h1 {
 }
 
 input[type="text"],
-input[type="number"] {
+input[type="number"],
+select {
   width: 100%;
   padding: 0.6rem 0.7rem;
   background: var(--surface-2);

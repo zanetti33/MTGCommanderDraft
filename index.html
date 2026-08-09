@@ -33,6 +33,16 @@
           <input type="number" id="num-players" min="1" step="1" value="4" required />
         </div>
 
+        <div class="field">
+          <label for="unique-colors" data-i18n="host.uniqueColorsLabel">Unique colors</label>
+          <select id="unique-colors">
+            <option value="disabled" data-i18n="host.uniqueColorsOptionDisabled">Disabled — any color combination can appear</option>
+            <option value="default" data-i18n="host.uniqueColorsOptionDefault">Default — no two cards in a player's pool share the exact same colors</option>
+            <option value="strict" data-i18n="host.uniqueColorsOptionStrict">Strict — a color can appear in only one card per player's pool, even combined with others</option>
+          </select>
+          <div class="hint" data-i18n="host.uniqueColorsHint">Applies within each player's 3-card pool only, not across different players; colorless is treated as its own color, so a player can't get more than one colorless card when this is enabled.</div>
+        </div>
+
         <button type="submit" class="primary" id="submit-btn" data-i18n="host.submit">Generate draft links</button>
       </form>
 
