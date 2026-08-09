@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MTG Commander Drafting — Your Pick</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h1>Your draft options</h1>
+    <p class="subtitle">Pick one of the two cards below, or try your luck for a hidden third card.</p>
+
+    <div id="loading" class="status">Loading your cards…</div>
+    <div id="error" class="status error hidden"></div>
+
+    <div id="choice-view" class="hidden">
+      <div class="cards-row" id="cards-row"></div>
+      <div class="luck-row">
+        <p>Not feeling either of these? Try your luck for a hidden third card instead.</p>
+        <button type="button" class="secondary" id="luck-btn">Try your luck</button>
+      </div>
+    </div>
+
+    <div id="result-view" class="card result-view hidden">
+      <h2 id="result-heading"></h2>
+      <img id="result-image" alt="" />
+      <p id="result-name"></p>
+    </div>
+  </div>
+
+  <script src="js/scryfall.js"></script>
+  <script src="js/encoding.js"></script>
+  <script src="js/player.js"></script>
+</body>
+</html>
