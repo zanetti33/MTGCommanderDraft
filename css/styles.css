@@ -220,3 +220,33 @@ button.secondary {
   border-radius: 10px;
   margin: 1rem 0;
 }
+
+.card-option img,
+.result-view img {
+  cursor: zoom-in;
+  transition: transform 0.15s ease;
+}
+
+.card-option img:hover,
+.result-view img:hover {
+  transform: scale(1.03);
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  cursor: zoom-out;
+  z-index: 1000;
+}
+
+.modal-overlay img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}

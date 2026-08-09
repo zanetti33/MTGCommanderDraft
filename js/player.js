@@ -8,6 +8,8 @@
   const resultHeadingEl = document.getElementById('result-heading');
   const resultImageEl = document.getElementById('result-image');
   const resultNameEl = document.getElementById('result-name');
+  const imageModalEl = document.getElementById('image-modal');
+  const modalImageEl = document.getElementById('modal-image');
 
   function showError(message) {
     loadingEl.classList.add('hidden');
@@ -16,14 +18,34 @@
     errorEl.classList.remove('hidden');
   }
 
-  function cardImageUrl(card) {
-    if (card.image_uris && card.image_uris.normal) {
-      return card.image_uris.normal;
+  function cardImageUrl(card, size) {
+    const uris = card.image_uris || (card.card_faces && card.card_faces[0] && card.card_faces[0].image_uris);
+    if (!uris) {
+      return '';
     }
-    if (card.card_faces && card.card_faces[0] && card.card_faces[0].image_uris) {
-      return card.card_faces[0].image_uris.normal;
+    return uris[size || 'normal'] || uris.normal || '';
+  }
+
+  function openImageModal(url, alt) {
+    modalImageEl.src = url;
+    modalImageEl.alt = alt;
+    imageModalEl.classList.remove('hidden');
+  }
+
+  function closeImageModal() {
+    imageModalEl.classList.add('hidden');
+    modalImageEl.src = '';
+  }
+
+  imageModalEl.addEventListener('click', closeImageModal);
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeImageModal();
     }
-    return '';
+  });
+
+  function makeClickableFullscreen(img, card) {
+    img.addEventListener('click', () => openImageModal(cardImageUrl(card, 'large'), card.name));
   }
 
   function showResult(heading, card) {
@@ -33,6 +55,7 @@
     resultImageEl.alt = card.name;
     resultNameEl.textContent = card.name;
     resultViewEl.classList.remove('hidden');
+    resultImageEl.onclick = () => openImageModal(cardImageUrl(card, 'large'), card.name);
   }
 
   function renderChoices(shownCards, onChoose) {
@@ -45,6 +68,7 @@
       const img = document.createElement('img');
       img.src = cardImageUrl(card);
       img.alt = card.name;
+      makeClickableFullscreen(img, card);
 
       const title = document.createElement('h3');
       title.textContent = card.name;
