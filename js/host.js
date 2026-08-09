@@ -99,7 +99,6 @@
     setStatus(t('host.statusLoading'), false);
 
     try {
-      const query = buildQuery(setCode, identityQueryValue);
       const pool = await window.Scry.searchCards(query);
 
       if (pool.length === 0) {

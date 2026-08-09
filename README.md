@@ -10,7 +10,7 @@ We will offer this site on an open link in github pages.
 
 ## How it works
 
-- `index.html` — host page. Enter a Scryfall set code, restrict color identity (WUBRG), choose whether duplicates are allowed across the draft, and set the number of players. Submitting fetches the eligible card pool from Scryfall and generates one link per player.
+- `index.html` — host page. Enter any Scryfall search query (e.g. `set:neo t:creature identity<=wu`), choose whether duplicates are allowed across the draft, and set the number of players. Submitting fetches the eligible card pool from Scryfall and generates one link per player.
 - `player.html` — player page. Opened via a generated link, it reveals 2 of the player's 3 assigned cards; the player can choose one, or "try their luck" to reveal the hidden third card instead.
 
 The whole site is static (plain HTML/CSS/vanilla JS, no build step, no backend). Each player link encodes its 3 card ids in a base64 query parameter (`?d=...`) so the cards aren't in plaintext in the URL — this is obfuscation to preserve the surprise, not real security. There is no server-side state: nothing is persisted, and the host can't see what a player ultimately picked.
