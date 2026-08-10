@@ -1,31 +1,58 @@
-# MTG Drafting
-I want to create an app used for magic the gathering drafting. In particular, for the MVP, I want the possibility to draft from a specific set and with some restriction on the pool.
-The draft will be like this:
-- An host decides the pool restrictions (set, include duplicates, forcing some identity ecc...) and the number of players
-- The web app generates a link for each player with 3 cards exctracted from the pool.
-- The link will show 2 of the cards to the player opening the link and he can chose one of them or try his luck. If he tries his luck he is assigned the third chosen card.
+*[Leggi questo in italiano](README.it.md)*
 
-The web site can be static and work with query values (hidden to not make the option obvious to anyone). The card pool and queries can be done to the open api of [Scryfall](https://scryfall.com/docs/api).
-We will offer this site on an open link in github pages.
+# MTG Commander Draft
 
-## How it works
+A small static site for running a **"2 of 3" draft** of Magic: The Gathering cards, built for Commander card pools but usable with any [Scryfall](https://scryfall.com/docs/api) search.
 
-- `index.html` — host page. Enter any Scryfall search query (e.g. `set:neo t:creature identity<=wu`; use `c<=3` / `c>=4` to filter by number of colors, which Scryfall supports natively), choose whether duplicates are allowed across the draft, set the number of players, and optionally require "unique colors" within each player's 3-card pool (`default`: no two cards share the exact same color set; `strict`: no color may recur across the pool at all, even combined with others; colorless counts as its own color in both modes, so a player can't get more than one colorless card). Submitting fetches the eligible card pool from Scryfall and generates one link per player; if the chosen pool and constraints make this impossible, a clear error explains why.
-- `player.html` — player page. Opened via a generated link, it reveals 2 of the player's 3 assigned cards; the player can choose one, or "try their luck" to reveal the hidden third card instead.
+**🔗 Try it live: [zanetti33.github.io/MTGCommanderDraft](https://zanetti33.github.io/MTGCommanderDraft/)**
 
-The whole site is static (plain HTML/CSS/vanilla JS, no build step, no backend). Each player link encodes its 3 card ids in a base64 query parameter (`?d=...`) so the cards aren't in plaintext in the URL — this is obfuscation to preserve the surprise, not real security. There is no server-side state: nothing is persisted, and the host can't see what a player ultimately picked.
+## What it is
 
-## Running locally
+The host (whoever runs the draft) defines a card pool with a Scryfall search query (e.g. a set, a color identity, some filters) and the number of players. The site automatically generates a personal link for each player, with 3 cards randomly drawn from the pool.
 
-Open `index.html` directly in a browser (double-click, or `file://...`), or serve the folder with any static file server, e.g.:
+Opening their link, each player only sees **2 of the 3 cards** and must pick one of them — or "try their luck" and get the hidden third card instead, with no way back.
+
+Nothing to install, no account needed: the host generates the links from the main page and shares each one (e.g. in chat) with the corresponding player.
+
+## How to use it
+
+**As host**
+1. Go to [zanetti33.github.io/MTGCommanderDraft](https://zanetti33.github.io/MTGCommanderDraft/).
+2. Enter a Scryfall search query to define the card pool (e.g. `set:neo t:creature identity<=wu`).
+3. Choose the number of players and the pool options: whether to allow duplicates, and whether to enforce "unique colors" within each player's pool.
+4. Generate the links and share each one with its player.
+
+**As player**
+1. Open the link you received from the host.
+2. Look at the 2 proposed cards and pick one, or "try your luck" to reveal the hidden third card instead.
+
+The site is available in **Italian and English** (switchable from the top of the page).
+
+## Main features
+
+- Card pool defined with any valid Scryfall query (set, colors, type, rarity, etc.).
+- Configurable number of players, with or without duplicates across the whole pool.
+- Optional "unique colors" filter so a player doesn't get cards of the same colors (with a looser and a stricter mode).
+- No backend: each player's cards are encoded directly in their link, and the host can't see what a player ultimately picks.
+
+## Local development
+
+The site is fully static (plain HTML/CSS/JS, no build step). Just open `index.html` in a browser, or serve the folder with any static file server, e.g.:
 
 ```
 python -m http.server
 ```
 
+## Technical details
+
+- `index.html` — host page, described above.
+- `player.html` — player page, described above.
+- Each generated link encodes the player's 3 card ids in a base64 `?d=...` query parameter: this is only meant to keep the cards out of plain sight in the URL (to preserve the surprise), it's not a real security measure.
+- There is no server-side state: nothing is persisted, and the host can't see what a player ultimately chose.
+
 ## Deploying to GitHub Pages
 
-Deployment is automated via [.github/workflows/deploy.yml](.github/workflows/deploy.yml): every push to `master` builds no artifacts (there's nothing to build) and publishes the repo root straight to GitHub Pages.
+Deployment is automated via [.github/workflows/deploy.yml](.github/workflows/deploy.yml): every push to `master` publishes the repo root straight to GitHub Pages (there's nothing to build).
 
 One-time setup on the GitHub repo:
 
